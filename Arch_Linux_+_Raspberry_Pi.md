@@ -1,9 +1,9 @@
-Este tutorial ha sido publicado por mi en la WEB [Desdelinux](http://blog.desdelinux.net/) bajo licencia CC-BY-NA
 
+# Arch Linux en Raspberry Pi
 
 Hace algún tiempo me compré una **[Raspberry Pi](http://www.raspberrypi.org/)** y hace unas semanas decidí instalarle **[Arch Linux](http://archlinuxarm.org/)**, voy a relatar como lo hice.
 
-Para poder realizar la todo el proceso necesitaremos:
+Para poder realizar todo el proceso necesitaremos:
 
 - Una Raspberry Pi.
 - Una tarjeta SD de 2Gb mínimo.
@@ -11,7 +11,7 @@ Para poder realizar la todo el proceso necesitaremos:
 
 ## Instalación
 
-Primero nos tenemos que descargar la imagen de **Arch Linux** **[aqui](http://archlinuxarm.org/platforms/armv6/raspberry-pi)**. Nos podemos descargar la imagen a través de descarga directa o torrent.
+Primero nos tenemos que descargar la imagen de **Arch Linux** **[aquí](http://archlinuxarm.org/platforms/armv6/raspberry-pi)**. Nos podemos descargar la imagen a través de descarga directa o torrent.
 
 Una vez tengamos la imagen descargada hay que descomprimirla, para ello desde consola:
 
@@ -23,9 +23,9 @@ Para cargar la imagen en la SD:
 
     dd bs=1M if=/path/to/archlinux-hf-*.img of=/dev/sdX
     
-Con este comando no aparece ninguna muestra de proceso, depende de la clase de vuestra tarjeta tardará más o menos. A mi en una tarjeta SD de 8Gb clase 4 me ha tardado entre **8 - 10 minutos**.
+Con este comando no aparece ninguna muestra de proceso, depende de la clase de vuestra tarjeta tardará más o menos. A mí en una tarjeta SD de 8Gb clase 4 me ha tardado entre **8 - 10 minutos**.
 
-Cuando el comando termina ya tenemos nuestro **Arch Linux** instalado en la SD pero si teneis una SD de gran tamaño hay que hacer un paso más. La instalación no aprovecha todo el tamaño disponible de la SD así que usando el **GParted** vamos a extender la ultima partición.
+Cuando el comando termina ya tenemos nuestro **Arch Linux** instalado en la SD pero si tenéis una SD de gran tamaño hay que hacer un paso más. La instalación no aprovecha todo el tamaño disponible de la SD así que usando el **GParted** vamos a extender la última partición.
 
 Con esto ya tenemos lista la SD para empezar a configurar la **Raspberry Pi**
 
@@ -38,19 +38,19 @@ El usuario y password por defecto:
 - Usuario: **root**
 - Password: **root**
 
-La imagen que hemos instalado en la SD viene con el servicio **SSH** configurado y levantado. Como no tiene configurada ninguna IP estática el router le asignará una IP por medio del **DHCP**. Para ver que IP le ha asignado lo podemos mirar en el router o podermos rastrear nuesta red desde consola usando **Nmap**:
+La imagen que hemos instalado en la SD viene con el servicio **SSH** configurado y levantado. Como no tiene configurada ninguna IP estática el router le asignará una IP por medio del **DHCP**. Para ver que IP le ha asignado lo podemos mirar en el router o podemos rastrear nuestra red desde consola usando **Nmap**:
 
     nmap -sP 192.168.0.1/24
 
-Una vez que sabemos la IP de nuestra **Raspberry Pi** (En mi caso 192.168.1.132), para poder accerder por **SSH** es tan fácil como:
+Una vez que sabemos la IP de nuestra **Raspberry Pi** (En mi caso 192.168.1.132), para poder acceder por **SSH** es tan fácil como:
 
     ssh root@192.168.1.132
 
-Nos pedirá que acceptemos la clave pública del **SSH** y ya estamos dentro de nuestra **Raspberry Pi**. Lo primero que hacemos es actualizar todo el sistema con el comando:
+Nos pedirá que aceptemos la clave pública del **SSH** y ya estamos dentro de nuestra **Raspberry Pi**. Lo primero que hacemos es actualizar todo el sistema con el comando:
 
     pacman -Syu
     
-Cuando acabe de actualizar todo el sistema vamos a configurar minimamente la **Raspberry Pi**.
+Cuando acabe de actualizar todo el sistema vamos a configurar mínimamente la **Raspberry Pi**.
 
 Vamos a configurar el idioma del sistema:
 
@@ -70,7 +70,7 @@ es_ES@euro ISO-8859-15
 
     locale-gen
 
-y una vez cargado hay que añadirlo(Aquí que cada uno lo cambie segun el idioma elegido):
+y una vez cargado hay que añadirlo (Aquí que cada uno lo cambie según el idioma elegido):
 
     localectl set-locale LANG="es_ES.UTF8", LC_TIME="es_ES.UTF8"
 
@@ -90,7 +90,7 @@ y
 
     passwd tu_usuario
 
-6- Le damos un nombre a nuesto host:
+6- Le damos un nombre a nuestro host:
 
     echo "nombre_maquina" > /etc/hostname
 
@@ -127,7 +127,7 @@ ExecStop=/usr/bin/ip link set dev %i down
 [Install]
 WantedBy=multi-user.target
 ```
-9- Paramos el servicio de **DHCP** y iniciamos el que acabamos de configurar:
+9- Paramos el servicio de **DHCP** e iniciamos el que acabamos de configurar:
 
     systemctl disable dhcpd
 
