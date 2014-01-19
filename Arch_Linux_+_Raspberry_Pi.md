@@ -1,4 +1,3 @@
-
 # Arch Linux en Raspberry Pi
 
 Hace algún tiempo me compré una **[Raspberry Pi](http://www.raspberrypi.org/)** y hace unas semanas decidí instalarle **[Arch Linux](http://archlinuxarm.org/)**, voy a relatar como lo hice.
@@ -97,6 +96,7 @@ y
 7- Le configuramos una IP estática para ello creamos el archivo **/etc/conf.d/interface** y añadimos lo siguiente cambiando los **datos** en cada caso:
 
 ```
+interface=eth0
 address=192.168.1.200
 netmask=24
 broadcast=192.168.1.255
@@ -106,30 +106,27 @@ gateway=192.168.1.1
 
 ```
 [Unit]
-Description=Network connectivity (%i)
-Wants=network.target
-Before=network.target
-BindsTo=sys-subsystem-net-devices-%i.device
-After=sys-subsystem-net-devices-%i.device
+ Description=Wireless Static IP Connectivity
+ Wants=network.target
+ Before=network.target
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-EnvironmentFile=/etc/conf.d/network@%i
-
-ExecStart=/usr/bin/ip link set dev %i up
-ExecStart=/usr/bin/ip addr add ${address}/${netmask} broadcast ${broadcast} dev %i
-ExecStart=/usr/bin/ip route add default via ${gateway}
-
-ExecStop=/usr/bin/ip addr flush dev %i
-ExecStop=/usr/bin/ip link set dev %i down
+ Type=oneshot
+ RemainAfterExit=yes
+ EnvironmentFile=/etc/conf.d/network
+ ExecStart=/sbin/ip link set dev ${interface} up
+ ExecStart=/sbin/ip addr add ${address}/${netmask} broadcast ${broadcast} dev ${interface}
+ ExecStart=/sbin/ip route add default via ${gateway}
+ 
+ ExecStop=/sbin/ip addr flush dev ${interface}
+ ExecStop=/sbin/ip link set dev ${interface} down
 
 [Install]
-WantedBy=multi-user.target
+ WantedBy=multi-user.target
 ```
 9- Paramos el servicio de **DHCP** e iniciamos el que acabamos de configurar:
 
-    systemctl disable dhcpd
+    systemctl disable dhcpcd
 
     systemctl start network
 
